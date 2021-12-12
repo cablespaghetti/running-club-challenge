@@ -1,0 +1,20 @@
+{% if results_list %}
+    <ol>
+    {% for result in results_list %}
+        <li>
+            {% if result.athlete.strava_id %}
+            <a href="https://www.strava.com/athletes/{{ result.athlete.strava_id }}">{{ result.athlete.first_name }} {{ result.athlete.last_name }}</a>
+            {% else %}
+            {{ result.athlete.first_name }} {{ result.athlete.last_name }}
+            {% endif %}
+            {% if result.strava_activity_id %}
+            <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
+            {% else %}
+            {{ result.elapsed_time }}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>No results are available.</p>
+{% endif %}

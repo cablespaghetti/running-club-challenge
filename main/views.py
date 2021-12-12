@@ -1,5 +1,9 @@
+from datetime import date
+
 from django.http import HttpResponse
 from django.conf import settings
+from django.template import loader
+
 from stravalib.client import Client
 
 from main.models import Athlete, Activity, Race
@@ -42,27 +46,24 @@ def authorized(request):
     )
 
 
-def athlete_activities(request):
-    athlete_id = request.GET.get('id')
-    athlete = Athlete.objects.get(id=athlete_id)
-    client = Client()
-    client.access_token = athlete.strava_access_token
-    client.refresh_token = athlete.strava_refresh_token
-    client.expires_at = athlete.strava_expires_at
-    client.get_activities(limit=1)
-    for activity in client.get_activities():
-        strava_activity = activity
-        break
+def race_results(request, race_id):
+    race = Race.objects.get(id=race_id)
+    activities = Activity.objects.filter(race=race).order_by('-elapsed_time')
+    template = loader.get_template('main/race_results.html')
+    template_context = {
+        'results_list': activities
+    }
+    return HttpResponse(template.render(template_context, request))
 
-    race = Race.objects.get(id=1)
-    activity = Activity(
-        race=race,
-        athlete=athlete,
-        time=strava_activity.start_date_local,
-        strava_activity_id=strava_activity.id,
-    )
-    activity.save()
 
-    return HttpResponse("Stuff")
+def index(request):
+    today = date.today()
+    #races = Race.objects.filter(start_date__lte=today).filter(end_date__gte=today)
+    races = Race.objects.all()
 
-#todo refreshing when expired
+    template = loader.get_template('main/index.html')
+    template_context = {
+        'race_list': races
+    }
+
+    return HttpResponse(template.render(template_context, request))

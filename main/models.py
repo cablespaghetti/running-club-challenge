@@ -15,7 +15,7 @@ class Athlete(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     dob = models.DateField(name="DOB", verbose_name="Date of Birth", blank=True, null=True)
-    photo = models.CharField(max_length=254, verbose_name="Profile Photo URL", blank=True, null=True)
+    photo = models.URLField(max_length=254, verbose_name="Profile Photo URL", blank=True, null=True)
     strava_id = models.BigIntegerField(verbose_name="Strava ID", editable=False)
     strava_access_token = models.CharField(max_length=1024, editable=False)
     strava_refresh_token = models.CharField(max_length=1024, editable=False)
@@ -41,13 +41,14 @@ class Race(models.Model):
 
 class Activity(models.Model):
     def __str__(self):
-        return f"{self.race.name} - {self.athlete.first_name} {self.athlete.last_name} - {self.time}"
+        return f"{self.race.name} - {self.athlete.first_name} {self.athlete.last_name} - {self.elapsed_time}"
 
     class Meta:
         verbose_name_plural = "activities"
 
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
-    time = models.DateTimeField()
-    evidence = models.CharField(max_length=1024, blank=True, null=True)
+    start_time = models.DateTimeField()
+    elapsed_time = models.DurationField()
+    evidence = models.URLField(max_length=1024, blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
