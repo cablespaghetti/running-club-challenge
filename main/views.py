@@ -1,7 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from stravalib.client import Client
-from collector.models import Athlete, StravaAuth
+
+from main.models import Athlete
+
 
 def authorize(request):
     client = Client()
@@ -22,17 +23,26 @@ def authorized(request):
 
     athlete_response = client.get_athlete()
     
-    athlete = Athlete(strava_id=athlete_response.id, first_name=athlete_response.firstname, last_name=athlete_response.lastname, sex=athlete_response.sex, photo=athlete_response.profile)
+    athlete = Athlete(
+        strava_id=athlete_response.id,
+        first_name=athlete_response.firstname,
+        last_name=athlete_response.lastname,
+        gender=athlete_response.sex,
+        photo=athlete_response.profile,
+        strava_access_token=access_token,
+        strava_refresh_token=refresh_token,
+        strava_expires_at=expires_at
+    )
     athlete.save()
 
-    strava_auth = StravaAuth(athlete_id=athlete, access_token=access_token, refresh_token=refresh_token, expires_at=expires_at)
-    strava_auth.save()
+    return HttpResponse(
+        f"For {athlete.first_name} {athlete.last_name} ({athlete.strava_id}), I now have an access token {access_token}"
+    )
 
-    return HttpResponse(f"For {athlete.first_name} {athlete.last_name} ({athlete.strava_id}), I now have an access token {access_token}")
 
 def athlete_activities(request):
     athlete_id = request.GET.get('id')
-    strava_auth = StravaAuth.objects.filter(athlete_id=athlete_id)[0]
+    strava_auth = Athlete.objects.get(athlete_id=athlete_id)
     client = Client()
     client.access_token = strava_auth.access_token
     client.refresh_token = strava_auth.refresh_token
