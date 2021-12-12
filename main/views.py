@@ -1,18 +1,20 @@
 from django.http import HttpResponse
+from django.conf import settings
 from stravalib.client import Client
 
-from main.models import Athlete
+from main.models import Athlete, Activity, Race
 
 
 def authorize(request):
     client = Client()
-    authorize_url = client.authorization_url(client_id=49170, redirect_uri='http://localhost:8000/collector/authorized')
+    authorize_url = client.authorization_url(client_id=settings.STRAVA_CLIENT_ID, redirect_uri='http://localhost:8000/authorized')
     return HttpResponse(f"Please connect the app with Strava <a href=\"{authorize_url}\">here</a>")
+
 
 def authorized(request):
     client = Client()
     code = request.GET.get('code')
-    token_response = client.exchange_code_for_token(client_id=49170, client_secret='nope', code=code)
+    token_response = client.exchange_code_for_token(client_id=settings.STRAVA_CLIENT_ID, client_secret=settings.STRAVA_CLIENT_SECRET, code=code)
     access_token = token_response['access_token']
     refresh_token = token_response['refresh_token']
     expires_at = token_response['expires_at']
@@ -42,13 +44,25 @@ def authorized(request):
 
 def athlete_activities(request):
     athlete_id = request.GET.get('id')
-    strava_auth = Athlete.objects.get(athlete_id=athlete_id)
+    athlete = Athlete.objects.get(id=athlete_id)
     client = Client()
-    client.access_token = strava_auth.access_token
-    client.refresh_token = strava_auth.refresh_token
-    client.expires_at = strava_auth.expires_at
+    client.access_token = athlete.strava_access_token
+    client.refresh_token = athlete.strava_refresh_token
+    client.expires_at = athlete.strava_expires_at
+    client.get_activities(limit=1)
     for activity in client.get_activities():
-        print(activity)
+        strava_activity = activity
+        break
+
+    race = Race.objects.get(id=1)
+    activity = Activity(
+        race=race,
+        athlete=athlete,
+        time=strava_activity.start_date_local,
+        strava_activity_id=strava_activity.id,
+    )
+    activity.save()
+
     return HttpResponse("Stuff")
 
 #todo refreshing when expired
