@@ -1,8 +1,8 @@
 from datetime import date
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.conf import settings
-from django.template import loader
+from django.shortcuts import render, get_object_or_404
 
 from stravalib.client import Client
 
@@ -47,23 +47,20 @@ def authorized(request):
 
 
 def race_results(request, race_id):
-    race = Race.objects.get(id=race_id)
+    race = get_object_or_404(Race, id=race_id)
+
     activities = Activity.objects.filter(race=race).order_by('-elapsed_time')
-    template = loader.get_template('main/race_results.html')
     template_context = {
         'results_list': activities
     }
-    return HttpResponse(template.render(template_context, request))
+    return render(request, 'main/race_results.html', template_context)
 
 
 def index(request):
     today = date.today()
     #races = Race.objects.filter(start_date__lte=today).filter(end_date__gte=today)
     races = Race.objects.all()
-
-    template = loader.get_template('main/index.html')
     template_context = {
         'race_list': races
     }
-
-    return HttpResponse(template.render(template_context, request))
+    return render(request, 'main/index.html', template_context)
