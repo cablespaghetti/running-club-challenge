@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 
 from django.http import HttpResponse, Http404
@@ -11,8 +12,15 @@ from main.models import Athlete, Activity, Race
 
 def authorize(request):
     client = Client()
-    authorize_url = client.authorization_url(client_id=settings.STRAVA_CLIENT_ID, redirect_uri='http://localhost:8000/authorized')
-    return HttpResponse(f"Please connect the app with Strava <a href=\"{authorize_url}\">here</a>")
+    authorize_url = client.authorization_url(
+        client_id=settings.STRAVA_CLIENT_ID,
+        redirect_uri='http://localhost:8000/authorized',
+        scope=['read', 'activity:read']
+    )
+    template_context = {
+        'authorize_url': authorize_url
+    }
+    return render(request, 'main/authorize.html', template_context)
 
 
 def authorized(request):
