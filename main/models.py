@@ -17,10 +17,6 @@ class Athlete(models.Model):
     dob = models.DateField(name="DOB", verbose_name="Date of Birth", blank=True, null=True)
     photo = models.URLField(max_length=254, verbose_name="Profile Photo URL", blank=True, null=True)
     strava_id = models.BigIntegerField(verbose_name="Strava ID", editable=False)
-    strava_access_token = models.CharField(max_length=1024, editable=False)
-    strava_refresh_token = models.CharField(max_length=1024, editable=False)
-    strava_expires_at = models.FloatField(editable=False)
-    strava_reauth_required = models.BooleanField(default=False, editable=False)
 
 
 class Race(models.Model):

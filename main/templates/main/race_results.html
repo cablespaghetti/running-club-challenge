@@ -1,3 +1,6 @@
+{% extends '../account/base.html' %}
+{% block content %}
+<div class="container">
 {% if results_list %}
     <ol>
     {% for result in results_list %}
@@ -18,3 +21,5 @@
 {% else %}
     <p>No results are available.</p>
 {% endif %}
+</div>
+{% endblock content %}

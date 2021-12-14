@@ -145,3 +145,6 @@ ACCOUNT_SESSION_REMEMBER = True
 LOGIN_REDIRECT_URL = "index"
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateSocialAccountAdapter"
+ACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateAccountAdapter"
+
+SOCIALACCOUNT_AUTO_SIGNUP = True

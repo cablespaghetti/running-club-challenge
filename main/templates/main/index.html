@@ -1,34 +1,14 @@
-{% extends '_base.html' %}
-{% load socialaccount %}
-{% load static %}
+{% extends '../account/base.html' %}
 {% block content %}
-
-<div class="container" style="text-align: center; padding-top: 10%;">
-  <h1>Django Social Login</h1>
-
-  <br /><br />
-
-
-  {% if user.is_authenticated %}
-    <h3>Welcome {{ user.username }} !!!</h3>
-    <br /><br />
-    <a href="{% url 'account_logout' %}" class="btn btn-danger">Logout</a>
-  {% else %}
-    <!-- Strava button starts here -->
-    <a href="{% provider_login_url 'strava' %}">
-        <img src="{% static 'main/btn_strava_connectwith_orange.png' %}" alt="Connect with Strava"/>
-    </a>
-    <!-- Strava button ends here -->
-  {% endif %}
-</div>
-
-{% endblock content %}
-{% if race_list %}
+<div class="container">
+  {% if race_list %}
     <ul>
     {% for race in race_list %}
         <li><a href="{% url 'race_results' race.id %}">{{ race.name }}</a></li>
     {% endfor %}
     </ul>
-{% else %}
+  {% else %}
     <p>No races are available.</p>
-{% endif %}
+  {% endif %}
+</div>
+{% endblock content %}
