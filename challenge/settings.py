@@ -131,20 +131,24 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STRAVA_CLIENT_ID = os.environ['STRAVA_CLIENT_ID']
-STRAVA_CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
-
-
 AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = "True"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_SESSION_REMEMBER = True
 LOGIN_REDIRECT_URL = "index"
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateSocialAccountAdapter"
 ACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateAccountAdapter"
+ACCOUNT_FORMS = {
+    'signup': 'challenge.auth_adapter.AccountSignupForm'
+}
+
+SOCIALACCOUNT_FORMS = {
+    'signup': 'challenge.auth_adapter.SocialAccountSignupForm'
+}
 
 SOCIALACCOUNT_AUTO_SIGNUP = True

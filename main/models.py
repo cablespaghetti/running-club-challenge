@@ -1,22 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Athlete(models.Model):
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.user.first_name} {self.user.last_name}"
 
-    first_name = models.CharField(max_length=254)
-    last_name = models.CharField(max_length=254)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Based on Strava API definition not mine
     # https://developers.strava.com/docs/reference/#api-models-SummaryAthlete
     GENDER_CHOICES = [
         ('F', 'Female'),
         ('M', 'Male'),
     ]
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
     dob = models.DateField(name="DOB", verbose_name="Date of Birth", blank=True, null=True)
     photo = models.URLField(max_length=254, verbose_name="Profile Photo URL", blank=True, null=True)
-    strava_id = models.BigIntegerField(verbose_name="Strava ID", editable=False)
 
 
 class Race(models.Model):
