@@ -62,7 +62,6 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
         """
         Saves a newly signed up social login. Accounts are disabled by default.
         """
-        logger = logging.getLogger()
         u = sociallogin.user
         u.set_unusable_password()
         if form:

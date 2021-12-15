@@ -2,6 +2,13 @@ from django.contrib import admin
 
 from .models import Athlete, Race, Activity
 
-admin.site.register(Athlete)
+
+class AthleteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'gender', 'DOB', 'has_photo')
+
+
+admin.site.register(Athlete, AthleteAdmin)
 admin.site.register(Race)
 admin.site.register(Activity)
+admin.site.site_header = "RRR Challenge administration"
+admin.site.site_title = "RRR Challenge admin"
