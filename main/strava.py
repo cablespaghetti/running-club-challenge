@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from stravalib import unithelper
 from stravalib.client import Client
 
+from agegrader.agegrader import AgeGrader
 from .models import Athlete, Race, Activity
 
 logger = logging.getLogger()
@@ -34,11 +35,18 @@ def create_update_athlete(user, gender=None, dob=None, photo=None):
 
 # TODO: Stop assuming there's only one match
 def create_update_activity(race, athlete, start_time, elapsed_time, strava_activity_id):
+    age_grade = age_graded_percentage(
+        age=get_athlete_age(athlete=athlete, date=start_time.date()),
+        gender=athlete.gender,
+        distance=race_distance_in_km(race),
+        time=elapsed_time.total_seconds(),
+    )
     existing_activities = Activity.objects.filter(race=race, athlete=athlete, strava_activity_id=strava_activity_id)
     for existing_activity in existing_activities:
         if existing_activity.start_time != start_time or existing_activity.elapsed_time != elapsed_time:
             existing_activity.start_time = start_time
             existing_activity.elapsed_time = elapsed_time
+            existing_activity.age_grade = age_grade
             existing_activity.save()
             logger.info(f"Updating {existing_activity.id} with new times")
         else:
@@ -52,9 +60,20 @@ def create_update_activity(race, athlete, start_time, elapsed_time, strava_activ
         athlete=athlete,
         start_time=start_time,
         elapsed_time=elapsed_time,
+        age_grade=age_grade,
         strava_activity_id=strava_activity_id,
     )
     activity.save()
+
+
+def get_athlete_age(athlete, date):
+
+    date_of_birth = athlete.DOB
+    if not date_of_birth:
+        return None
+
+    return date.year - date_of_birth.year - \
+        ((date.month, date.day) < (date_of_birth.month, date_of_birth.day))
 
 
 def get_user_strava_token(user):
@@ -104,10 +123,7 @@ def update_user_strava_activities(user):
     for strava_activity in strava_activities:
         if strava_activity.type == 'Run' and strava_activity.workout_type == 1:
             for race in races:
-                if race.distance_unit == "M":
-                    race_distance_km = race.distance * 1.609344
-                else:
-                    race_distance_km = race.distance
+                race_distance_km = race_distance_in_km(race)
                 strava_distance_km = unithelper.kilometers(strava_activity.distance).num
                 if race.start_date <= strava_activity.start_date.date() <= race.end_date \
                         and race.name.lower() in strava_activity.name.lower() \
@@ -122,3 +138,19 @@ def update_user_strava_activities(user):
                         elapsed_time=strava_activity.elapsed_time,
                         strava_activity_id=strava_activity.id,
                     )
+
+
+def race_distance_in_km(race):
+    if race.distance_unit == "M":
+        race_distance_km = race.distance * 1.609344
+    else:
+        race_distance_km = race.distance
+    return race_distance_km
+
+
+def age_graded_percentage(age, gender, distance, time):
+    if not age:
+        return 0
+    age_grader = AgeGrader()
+    age_graded_performance_factor = age_grader.age_graded_performance_factor(age, gender, distance, time)
+    return float(age_graded_performance_factor * 100)

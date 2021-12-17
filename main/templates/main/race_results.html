@@ -3,16 +3,16 @@
 <div class="container">
 {% if results_list %}
     <ol>
-    {% for result in results_list %}
+        {% for result in results_list %}
         <li>
             {{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }} -
             {% if result.strava_activity_id %}
             <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
             {% else %}
             {{ result.elapsed_time }}
-            {% endif %}
+            {% endif %} - {{ result.age_grade|floatformat:2 }}%
         </li>
-    {% endfor %}
+        {% endfor %}
     </ol>
 {% else %}
     <p>No results are available.</p>
