@@ -67,13 +67,12 @@ def create_update_activity(race, athlete, start_time, elapsed_time, strava_activ
 
 
 def get_athlete_age(athlete, date):
-
     date_of_birth = athlete.DOB
     if not date_of_birth:
         return None
 
     return date.year - date_of_birth.year - \
-        ((date.month, date.day) < (date_of_birth.month, date_of_birth.day))
+           ((date.month, date.day) < (date_of_birth.month, date_of_birth.day))
 
 
 def get_user_strava_token(user):
@@ -126,7 +125,7 @@ def update_user_strava_activities(user):
                 race_distance_km = race_distance_in_km(race)
                 strava_distance_km = unithelper.kilometers(strava_activity.distance).num
                 if race.start_date <= strava_activity.start_date.date() <= race.end_date \
-                        and race.name.lower() in strava_activity.name.lower() \
+                        and race.match_text.lower() in strava_activity.name.lower() \
                         and race_distance_km <= strava_distance_km \
                         < (race_distance_km + 0.1):
                     logger.info(
@@ -153,4 +152,4 @@ def age_graded_percentage(age, gender, distance, time):
         return 0
     age_grader = AgeGrader()
     age_graded_performance_factor = age_grader.age_graded_performance_factor(age, gender, distance, time)
-    return float(age_graded_performance_factor * 100)
+    return age_graded_performance_factor * 100

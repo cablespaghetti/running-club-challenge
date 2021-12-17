@@ -43,6 +43,7 @@ class Race(models.Model):
         ("M", "Miles"),
         ("K", "Kilometres"),
     ]
+    match_text = models.CharField(max_length=254)
     distance_unit = models.CharField(max_length=1, choices=DISTANCE_UNIT_CHOICES)
     strava_segment_id = models.BigIntegerField(blank=True, null=True)
 
