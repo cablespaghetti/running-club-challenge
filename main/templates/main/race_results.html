@@ -1,21 +1,38 @@
 {% extends '../account/base.html' %}
 {% block content %}
+
 <div class="container">
-{% if results_list %}
-    <ol>
+    <h2>{{ race_name }} Results</h2>
+    {% if results_list %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Time</th>
+            <th scope="col">Age Grade</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for result in results_list %}
-        <li>
-            {{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }} -
-            {% if result.strava_activity_id %}
-            <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
-            {% else %}
-            {{ result.elapsed_time }}
-            {% endif %} - {{ result.age_grade|floatformat:2 }}%
-        </li>
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }}</td>
+            <td>
+                {% if result.strava_activity_id %}
+                <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
+                {% else %}
+                {{ result.elapsed_time }}
+                {% endif %}
+            </td>
+            <td>{{ result.age_grade|floatformat:2 }}%</td>
+        </tr>
         {% endfor %}
-    </ol>
-{% else %}
+        </tbody>
+    </table>
+
+    {% else %}
     <p>No results are available.</p>
-{% endif %}
+    {% endif %}
 </div>
 {% endblock content %}

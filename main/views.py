@@ -16,6 +16,7 @@ def race_results(request, race_id):
             fastest_per_athlete_activities.append(activity)
             processed_athlete_list.append(activity.athlete)
     template_context = {
+        'race_name': race.name,
         'results_list': fastest_per_athlete_activities
     }
     return render(request, 'main/race_results.html', template_context)
