@@ -49,7 +49,7 @@ class Race(models.Model):
 
 class Activity(models.Model):
     def __str__(self):
-        return f"{self.race.name} - {self.athlete.first_name} {self.athlete.last_name} - {self.elapsed_time}"
+        return f"{self.race.name} - {self.athlete.user.first_name} {self.athlete.user.last_name} - {self.elapsed_time}"
 
     class Meta:
         verbose_name_plural = "activities"
