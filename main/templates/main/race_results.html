@@ -3,7 +3,8 @@
 
 <div class="container">
     <h2>{{ race_name }} Results</h2>
-    {% if results_list %}
+    {% for gender, results in results_dict.items %}
+    <h3>{% if gender == 'F' %}Women{% else %}Men{% endif %}</h3>
     <table class="table">
         <thead>
         <tr>
@@ -14,10 +15,15 @@
         </tr>
         </thead>
         <tbody>
-        {% for result in results_list %}
+        {% for result in results %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }}</td>
+            <td>
+                {% if result.athlete.photo %}
+                <img src="{{ result.athlete.photo }}" class="rounded-circle" style="width: 32;" />
+                {% endif %}
+                {{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }}
+            </td>
             <td>
                 {% if result.strava_activity_id %}
                 <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
@@ -30,9 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    {% else %}
-    <p>No results are available.</p>
-    {% endif %}
+    {% endfor %}
 </div>
 {% endblock content %}
