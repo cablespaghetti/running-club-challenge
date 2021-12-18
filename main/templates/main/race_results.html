@@ -1,10 +1,9 @@
 {% extends '../account/base.html' %}
 {% block content %}
-
 <div class="container">
     <h2>{{ race_name }} Results</h2>
-    {% for gender, results in results_dict.items %}
-    <h3>{% if gender == 'F' %}Women{% else %}Men{% endif %}</h3>
+    {% for list_name, results in results_dict.items %}
+    <h3>{{ list_name }}</h3>
     <table class="table">
         <thead>
         <tr>

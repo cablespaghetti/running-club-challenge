@@ -5,6 +5,8 @@ from allauth.socialaccount.models import SocialAccount, SocialToken
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from stravalib import unithelper
 from stravalib.client import Client
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from agegrader.agegrader import AgeGrader
 from .models import Athlete, Race, Activity
@@ -153,3 +155,16 @@ def age_graded_percentage(age, gender, distance, time):
     age_grader = AgeGrader()
     age_graded_performance_factor = age_grader.age_graded_performance_factor(age, gender, distance, time)
     return age_graded_performance_factor * 100
+
+
+@receiver(pre_save, sender=Activity)
+def calculate_age_grading(sender, instance, *args, **kwargs):
+    logger.warning("Updating age grading on save")
+    if not instance.age_grade:
+        athlete_age = get_athlete_age(instance.athlete, instance.start_time)
+        instance.age_grade = age_graded_percentage(
+            age=athlete_age,
+            gender=instance.athlete.gender,
+            distance=race_distance_in_km(instance.race),
+            time=instance.elapsed_time,
+        )
