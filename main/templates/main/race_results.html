@@ -26,8 +26,6 @@
             <td>
                 {% if result.strava_activity_id %}
                 <a href="https://www.strava.com/activities/{{ result.strava_activity_id }}">{{ result.elapsed_time }}</a>
-                {% elif result.evidence_image %}
-                <a href="{{ result.evidence_image.url }}">{{ result.elapsed_time }}</a>
                 {% elif result.evidence_file %}
                 <a href="{{ result.evidence_file.url }}">{{ result.elapsed_time }}</a>
                 {% else %}

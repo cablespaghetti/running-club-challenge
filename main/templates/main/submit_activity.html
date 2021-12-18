@@ -1,0 +1,18 @@
+{% extends '../account/base.html' %}
+{% block content %}
+<div class="container">
+<script>
+  $(function () {
+    $("#id_start_time").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
+
+<form enctype="multipart/form-data"  method="post">
+   {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit">
+</form>
+</div>
+{% endblock content %}

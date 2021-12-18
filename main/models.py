@@ -66,7 +66,6 @@ class Activity(models.Model):
     start_time = models.DateTimeField()
     elapsed_time = models.DurationField()
     age_grade = models.FloatField(blank=True)
-    evidence_image = models.ImageField(upload_to='evidence', blank=True, null=True)
     evidence_file = models.FileField(upload_to='evidence', blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
 
