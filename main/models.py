@@ -27,7 +27,7 @@ class Athlete(models.Model):
         name="DOB", verbose_name="Date of Birth", blank=True, null=True
     )
     photo = models.ImageField(
-        verbose_name="Profile Photo", blank=True, null=True
+        verbose_name="Profile Photo", upload_to="profile", blank=True, null=True
     )
 
     @admin.display(boolean=True, description="Photo")
@@ -66,8 +66,8 @@ class Activity(models.Model):
     start_time = models.DateTimeField()
     elapsed_time = models.DurationField()
     age_grade = models.FloatField(blank=True)
-    evidence_image = models.ImageField(blank=True, null=True)
-    evidence_file = models.FileField(blank=True, null=True)
+    evidence_image = models.ImageField(upload_to='evidence', blank=True, null=True)
+    evidence_file = models.FileField(upload_to='evidence', blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
 
 

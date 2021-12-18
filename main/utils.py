@@ -34,7 +34,7 @@ def create_update_athlete(user, gender=None, dob=None, photo_url=None):
 def copy_athlete_photo(athlete, photo_url):
     photo_response = requests.get(photo_url, allow_redirects=True)
     photo_extension = photo_url.split('.')[-1]
-    return athlete.photo.save(f'profile/{athlete.pk}.{photo_extension}', ContentFile(photo_response.content))
+    return athlete.photo.save(f'{athlete.pk}.{photo_extension}', ContentFile(photo_response.content))
 
 
 def create_update_activity(race, athlete, start_time, elapsed_time, strava_activity_id):
