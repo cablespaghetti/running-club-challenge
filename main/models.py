@@ -66,12 +66,13 @@ class Activity(models.Model):
     start_time = models.DateTimeField()
     elapsed_time = models.DurationField()
     age_grade = models.FloatField(blank=True)
-    evidence = models.URLField(max_length=1024, blank=True, null=True)
+    evidence_image = models.ImageField(blank=True, null=True)
+    evidence_file = models.FileField(blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
 
 
 @receiver(pre_save, sender=Activity)
 def calculate_age_grading(sender, instance, *args, **kwargs):
-    logger.info("Updating age grading on save")
     if not instance.age_grade:
+        logger.info(f"No age grade for activity {instance.pk}. Populating on save.")
         instance.age_grade = get_activity_age_grade(instance.athlete, instance.elapsed_time, instance.race, instance.start_time)
