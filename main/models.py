@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from main.calculators import get_activity_age_grade
+import logging
+
+logger = logging.getLogger()
 
 
 class Athlete(models.Model):
@@ -62,3 +68,10 @@ class Activity(models.Model):
     age_grade = models.FloatField(blank=True)
     evidence = models.URLField(max_length=1024, blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
+
+
+@receiver(pre_save, sender=Activity)
+def calculate_age_grading(sender, instance, *args, **kwargs):
+    logger.info("Updating age grading on save")
+    if not instance.age_grade:
+        instance.age_grade = get_activity_age_grade(instance.athlete, instance.elapsed_time, instance.race, instance.start_time)

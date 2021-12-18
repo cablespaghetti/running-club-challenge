@@ -3,7 +3,7 @@ from allauth.socialaccount.adapter import get_account_adapter, DefaultSocialAcco
 from allauth.account.forms import SignupForm
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
 from stravalib.client import Client
-from main.strava import create_update_athlete
+from main.utils import create_update_athlete
 from django import forms
 
 import logging
