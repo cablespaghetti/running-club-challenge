@@ -92,7 +92,7 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
                 gender = sociallogin.account.extra_data['sex']
             if 'profile' in sociallogin.account.extra_data:
                 photo = sociallogin.account.extra_data['profile']
-        create_update_athlete(user=u, gender=gender, photo=photo)
+        create_update_athlete(user=u, gender=gender, photo_url=photo)
 
         return u
 

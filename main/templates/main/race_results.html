@@ -19,7 +19,7 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td>
                 {% if result.athlete.photo %}
-                <img src="{{ result.athlete.photo }}" class="rounded-circle" style="width: 32;" />
+                <img src="{{ result.athlete.photo.url }}" class="rounded-circle" style="width: 32;" />
                 {% endif %}
                 {{ result.athlete.user.first_name }} {{ result.athlete.user.last_name }}
             </td>

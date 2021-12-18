@@ -26,8 +26,8 @@ class Athlete(models.Model):
     dob = models.DateField(
         name="DOB", verbose_name="Date of Birth", blank=True, null=True
     )
-    photo = models.URLField(
-        max_length=254, verbose_name="Profile Photo URL", blank=True, null=True
+    photo = models.ImageField(
+        verbose_name="Profile Photo", blank=True, null=True
     )
 
     @admin.display(boolean=True, description="Photo")
