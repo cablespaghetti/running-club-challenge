@@ -45,6 +45,7 @@ class Race(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     distance = models.IntegerField()
+    submissions_close = models.DateField()
     DISTANCE_UNIT_CHOICES = [
         ("M", "Miles"),
         ("K", "Kilometres"),

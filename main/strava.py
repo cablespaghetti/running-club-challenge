@@ -50,7 +50,10 @@ def update_user_strava_activities(user):
     client.refresh_token = token.token_secret
     client.token_expires_at = token.expires_at
     strava_activities = client.get_activities(after=a_week_ago)
-    races = Race.objects.all()
+    races = Race.objects.filter(
+        submissions_close__gte=datetime.date.today(),
+        start_date__lte=datetime.date.today(),
+    )
     for strava_activity in strava_activities:
         if strava_activity.type == 'Run' and strava_activity.workout_type == 1:
             for race in races:

@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from main.models import Activity, Race
 from main.forms import SubmitResultForm
 from main.utils import get_athlete_for_user
+from datetime import date
 
 
 @login_required
@@ -73,6 +74,10 @@ def submit_result(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = SubmitResultForm()
+        form.fields["race"].queryset = Race.objects.filter(
+            submissions_close__gte=date.today(),
+            start_date__lte=date.today(),
+        )
 
     return render(request, 'main/submit_result.html', {'form': form})
 

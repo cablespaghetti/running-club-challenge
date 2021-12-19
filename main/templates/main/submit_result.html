@@ -17,7 +17,7 @@
     <a href="https://www.romseyroadrunners.co.uk/contact/">get in touch here</a> (selecting Website).
 </p>
 <form enctype="multipart/form-data"  method="post">
-   {% csrf_token %}
+  {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Submit">
 </form>
