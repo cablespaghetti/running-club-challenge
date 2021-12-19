@@ -1,0 +1,32 @@
+{% extends '../account/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Races</h2>
+    {% if race_list %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Submissions Close</th>
+            <th scope="col">Distance</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for race in race_list %}
+        <tr>
+            <td><a href="{% url 'race_results' race.id %}">{{ race.name }}</a></td>
+            <td>{{ race.start_date }}</td>
+            <td>{{ race.end_date }}</td>
+            <td>{{ race.submissions_close }}</td>
+            <td>{{ race.distance }}{{ race.distance_unit }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No races are available yet.</p>
+    {% endif %}
+</div>
+{% endblock content %}

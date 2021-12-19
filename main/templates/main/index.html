@@ -1,32 +1,58 @@
 {% extends '../account/base.html' %}
 {% block content %}
 <div class="container">
-    <h2>Races</h2>
-    {% if race_list %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Submissions Close</th>
-            <th scope="col">Distance</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for race in race_list %}
-        <tr>
-            <td><a href="{% url 'race_results' race.id %}">{{ race.name }}</a></td>
-            <td>{{ race.start_date }}</td>
-            <td>{{ race.end_date }}</td>
-            <td>{{ race.submissions_close }}</td>
-            <td>{{ race.distance }}{{ race.distance_unit }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No races are available yet.</p>
-    {% endif %}
+    <h3>Welcome to the Romsey Road Runners Club Challenge 2022!</h3>
+    <p>The details are as follows:</p>
+    <ul>
+        <li>Follows on from 2021's Virtual Race Series</li>
+        <li>Free to all members</li>
+        <li>Trail and road options available for each distance</li>
+        <li>Choose whether you do road, trail or both</li>
+        <li>One distance is open per month</li>
+        <li>Run it as many times as you like during that month</li>
+        <li>We will accept Strava activities, GPX files, a photo of your watch (or equivalent) showing time and distance
+            as evidence of your result</li>
+        <li>The winners are the fastest female and male runners for each distance and type
+            (eg fastest road 5k, fastest trail 5k) and the best age-graded male and female runner for each distance and
+            type</li>
+        <li>None of the routes are marked; please use the maps and GPX files provided on this site to follow the route</li>
+        <li>Please don't pause your watch mid route; we need your best elapsed time not moving time to enter you into
+            the results</li>
+        <li>By taking part you are consenting for the organisers to use your date of birth to calculate your age-graded
+            results. Only your age-graded results without any personal data will be published. If anyone would prefer
+            not to be included in the age-graded results please let us know and we will accommodate this.</a>
+        </li>
+    </ul>
+    <h4>Submitting results</h4>
+    <h5>Strava Users</h5>
+    <p>
+        The easiest way to access this site is with a Strava account which is a member of the
+        <a href="https://www.strava.com/clubs/romsey-road-runners">Romsey Road Runners Strava Club</a>. These accounts
+        will automatically capture race results from Strava, and will be immediately activated.
+    </p>
+    <p>
+        <strong>First</strong> make sure you're a member of the Strava Club and <i>then</i> click "Connect with Strava"
+        on the <a href="/accounts/login">Sign In page</a>. This will allow us to see any Public or Followers Only
+        activities on your account.
+    </p>
+    <p>
+        Make sure your race attempts include "Club Challenge" in the title, have a "Type of Run" of "Race", are within
+        the start and end date of the event, exceed the race distance but are no more than 100m over
+        (<a href="https://support.strava.com/hc/en-us/articles/216919437-Crop-Tool-for-Activities">here's how to crop activities</a>).
+    </p>
+    <h5>Non-Strava Users</h5>
+    <p>
+        Please register using the "Manual Registration" button on the <a href="/accounts/login">Sign In page</a> and
+        enter all your details. You will need to wait for us to check you are a club member and activate your account.
+    </p>
+    <p>
+        You will then be able to use the "Submit Result" button above to manually upload evidence of your results.
+        Ideally this should be a GPX file which you can export from most watches/services. However we will accept a
+        photo of your watch (or equivalent) showing time and distance.
+    </p>
+    <h5>Any problems?</h5>
+    <p>
+    Please email <a href="mailto:rrrweb@romseyroadrunners.co.uk">rrrweb@romseyroadrunners.co.uk</a> for help.
+    </p>
 </div>
 {% endblock content %}

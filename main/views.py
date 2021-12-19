@@ -82,10 +82,13 @@ def submit_result(request):
     return render(request, 'main/submit_result.html', {'form': form})
 
 
-@login_required
-def index(request):
+def race_list(request):
     races = Race.objects.all()
     template_context = {
         'race_list': races
     }
-    return render(request, 'main/index.html', template_context)
+    return render(request, 'main/race_list.html', template_context)
+
+
+def index(request):
+    return render(request, 'main/index.html')

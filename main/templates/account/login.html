@@ -48,18 +48,6 @@
   <a  class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password ?" %}</a>
 
 </form>
-    <div style="width: 60%; display: block; margin-right: auto; margin-left: auto;">
-        <p>
-        The easiest way to access this site is with a Strava account which is a member of the
-        <a href="https://www.strava.com/clubs/romsey-road-runners">Romsey Road Runners Strava Club</a>. These accounts
-        will be able to automatically capture race results from Strava, and will be immediately activated.
-        <strong>First</strong> make sure you're a member of the club and <i>then</i> click "Connect with Strava" below.
-        </p>
-        <p>
-        If you're not a Strava user, you can register normally below but will need to wait for your account to be
-        approved by an administrator. Results will need to be submitted manually.
-        </p>
-    </div>
     {% load account socialaccount %}
     {% get_providers as socialaccount_providers %}
     <ul class="social_providers_list">
@@ -70,7 +58,7 @@
         </a>
         {% endif %}
     {% endfor %}
-        <a href="/accounts/signup" class="btn btn-outline-dark">Register</a>
+        <a href="/accounts/signup" class="btn btn-outline-dark">Manual Registration</a>
     </ul>
 </div>
 {% endblock %}
