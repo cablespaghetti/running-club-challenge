@@ -1,8 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 
-from main.calculators import get_activity_age_grade
 from main.models import Athlete, Activity
 import logging
 import requests
@@ -38,13 +36,11 @@ def copy_athlete_photo(athlete, photo_url):
 
 
 def create_update_activity(race, athlete, start_time, elapsed_time, strava_activity_id):
-    age_grade = get_activity_age_grade(athlete, elapsed_time, race, start_time)
     existing_activities = Activity.objects.filter(race=race, athlete=athlete, strava_activity_id=strava_activity_id)
     for existing_activity in existing_activities:
         if existing_activity.start_time != start_time or existing_activity.elapsed_time != elapsed_time:
             existing_activity.start_time = start_time
             existing_activity.elapsed_time = elapsed_time
-            existing_activity.age_grade = age_grade
             existing_activity.save()
             logger.info(f"Updating {existing_activity.id} with new times")
         else:
@@ -58,7 +54,6 @@ def create_update_activity(race, athlete, start_time, elapsed_time, strava_activ
         athlete=athlete,
         start_time=start_time,
         elapsed_time=elapsed_time,
-        age_grade=age_grade,
         strava_activity_id=strava_activity_id,
     )
     activity.save()

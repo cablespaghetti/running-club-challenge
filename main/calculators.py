@@ -2,13 +2,17 @@ from agegrader.agegrader import AgeGrader
 
 
 def get_activity_age_grade(athlete, elapsed_time, race, start_time):
-    age_grade = age_graded_percentage(
-        age=get_athlete_age(athlete=athlete, date=start_time.date()),
-        gender=athlete.gender,
-        distance=race_distance_in_km(race),
-        time=elapsed_time.total_seconds(),
+    age = get_athlete_age(athlete=athlete, date=start_time.date())
+    if not age:
+        return 0
+    age_grader = AgeGrader()
+    age_graded_performance_factor = age_grader.age_graded_performance_factor(
+        age,
+        athlete.gender,
+        race_distance_in_km(race),
+        elapsed_time.total_seconds(),
     )
-    return age_grade
+    return age_graded_performance_factor * 100
 
 
 def get_athlete_age(athlete, date):

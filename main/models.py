@@ -72,6 +72,4 @@ class Activity(models.Model):
 
 @receiver(pre_save, sender=Activity)
 def calculate_age_grading(sender, instance, *args, **kwargs):
-    if not instance.age_grade:
-        logger.info(f"No age grade for activity {instance.pk}. Populating on save.")
-        instance.age_grade = get_activity_age_grade(instance.athlete, instance.elapsed_time, instance.race, instance.start_time)
+    instance.age_grade = get_activity_age_grade(instance.athlete, instance.elapsed_time, instance.race, instance.start_time)

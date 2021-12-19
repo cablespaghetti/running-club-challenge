@@ -8,7 +8,14 @@
     });
   });
 </script>
-
+<p>
+    This form allows you to submit a result if you are not a Strava user; uploading a GPX file or photo of your
+    watch as evidence of your time.
+</p>
+<p>
+    If you are a Strava user and your activity is not getting picked up by the system, please
+    <a href="https://www.romseyroadrunners.co.uk/contact/">get in touch here</a> (selecting Website).
+</p>
 <form enctype="multipart/form-data"  method="post">
    {% csrf_token %}
   {{ form.as_p }}
