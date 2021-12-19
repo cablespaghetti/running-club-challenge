@@ -1,4 +1,5 @@
 {% extends '../account/base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
     <h3>Welcome to the Romsey Road Runners Club Challenge 2022!</h3>
@@ -54,5 +55,6 @@
     <p>
     Please email <a href="mailto:rrrweb@romseyroadrunners.co.uk">rrrweb@romseyroadrunners.co.uk</a> for help.
     </p>
+    <img style="margin-left: -15;" src="{% static 'main/api_logo_cptblWith_strava_stack_light.png' %}"/>
 </div>
 {% endblock content %}
