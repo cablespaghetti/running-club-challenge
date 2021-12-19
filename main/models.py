@@ -68,6 +68,7 @@ class Activity(models.Model):
     age_grade = models.FloatField(editable=False)
     evidence_file = models.FileField(upload_to='evidence', blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
+    hidden_from_results = models.BooleanField(default=False)
 
 
 @receiver(pre_save, sender=Activity)

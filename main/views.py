@@ -11,7 +11,7 @@ from main.utils import get_athlete_for_user
 def race_results(request, race_id):
     race = get_object_or_404(Race, id=race_id)
 
-    activities = Activity.objects.filter(race=race).order_by('elapsed_time')
+    activities = Activity.objects.filter(race=race, hidden_from_results=False).order_by('elapsed_time')
     results_dict = {'Female Time': [],
                     'Male Time': [],
                     'Female Age Graded': [],
@@ -27,7 +27,7 @@ def race_results(request, race_id):
             results_dict[dict_list].append(activity)
             processed_athlete_list.append(activity.athlete)
 
-    age_graded_activities = Activity.objects.filter(race=race).order_by('-age_grade')
+    age_graded_activities = Activity.objects.filter(race=race, hidden_from_results=False).order_by('-age_grade')
     age_graded_processed_athlete_list = []
     for age_graded_activity in age_graded_activities:
         if age_graded_activity.athlete not in age_graded_processed_athlete_list:
