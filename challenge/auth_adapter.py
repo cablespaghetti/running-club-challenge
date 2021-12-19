@@ -105,8 +105,8 @@ class AccountSignupForm(SignupForm):
         ('M', 'Male')
     ]
     gender = forms.ChoiceField(choices=GENDER_CHOICES, label="Gender")
-    dob = forms.DateField(label="Date of Birth (DD/MM/YYYY)")
+    dob = forms.DateField(label="Date of Birth")
 
 
 class SocialAccountSignupForm(SocialSignupForm):
-    dob = forms.DateField(label="Date of Birth (DD/MM/YYYY)")
+    dob = forms.DateField(label="Date of Birth")

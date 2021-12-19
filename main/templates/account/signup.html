@@ -10,6 +10,14 @@
 {% endblock %}
 
 {% block content %}
+<script>
+  $(function () {
+    $("#id_dob").datetimepicker({
+      timepicker:false,
+      format: 'd/m/Y',
+    });
+  });
+</script>
 <div class="container-fluid">
 
  {% block messages %}
