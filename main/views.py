@@ -83,7 +83,7 @@ def submit_result(request):
 
 
 def race_list(request):
-    races = Race.objects.all()
+    races = Race.objects.order_by('start_date', 'name')
     template_context = {
         'race_list': races
     }
