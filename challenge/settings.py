@@ -32,6 +32,7 @@ else:
     DEBUG = os.getenv('DJANGO_DEBUG', False)
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
     ALLOWED_HOSTS = ['challenge.romseyroadrunners.co.uk']
+    CSRF_TRUSTED_ORIGINS = ['https://challenge.romseyroadrunners.co.uk']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
