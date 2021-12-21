@@ -20,7 +20,7 @@
             <td>{{ race.start_date }}</td>
             <td>{{ race.end_date }}</td>
             <td>{{ race.submissions_close }}</td>
-            <td>{{ race.distance }}{{ race.distance_unit }}</td>
+            <td>{{ race.distance.normalize }}{{ race.distance_unit }}</td>
         </tr>
         {% endfor %}
         </tbody>
