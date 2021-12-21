@@ -29,6 +29,7 @@ if ENVIRONMENT == 'local':
         }
     }
 else:
+    DEBUG = os.getenv('DJANGO_DEBUG', False)
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
     ALLOWED_HOSTS = ['challenge.romseyroadrunners.co.uk']
     DATABASES = {
