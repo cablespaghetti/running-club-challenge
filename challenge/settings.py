@@ -41,6 +41,7 @@ else:
             'CONN_MAX_AGE': 300,
         }
     }
+    STATIC_ROOT = "/static/"
 
 # TODO: Caching, Email sending
 
