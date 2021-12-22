@@ -62,22 +62,6 @@
     font-size: 1.2rem;
 }
 
-#signup_form #id_username{
-    margin-left: 2.6rem;
-}
-
-#signup_form #id_email{
-    margin-left: 0.3rem;
-}
-
-#signup_form #id_password1{
-    margin-left: 2.7rem;
-}
-
-#signup_form #id_pasword2{
-    margin-left: 0.8rem;
-}
-
 .exist_account_info{
     text-align:center;
     font-size: 1.3rem;
