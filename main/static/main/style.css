@@ -27,32 +27,6 @@
     height: 1rem;
 }
 
-#login_form button{
-    padding-bottom: 1rem;
-    width: 12rem;
-    height: 2.4rem;
-    border-radius: 1.3rem;
-    border:2px solid;
-}
-
-#login_form a{
-    padding-bottom: 1rem;
-    width:12rem;
-    height: 2.4rem;
-    border-radius: 1.3rem;
-    border:2px solid;
-}
-
-.social_providers_list{
-    margin: auto;
-    width: 100%;
-    text-align: center;
-}
-
-#social_icon{
-    display: inline;
-}
-
 /* Signup Page Styles */
 
 #signup_form input{
