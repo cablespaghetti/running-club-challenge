@@ -14,51 +14,51 @@
 {% block content %}
 <div class="container-fluid">
 
- {% block messages %}
+    {% block messages %}
     {% if messages %}
     <div>
         <ul>
-        {% for message in messages %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>{{message}}</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-        </div>
-        {% endfor %}
+            </div>
+            {% endfor %}
         </ul>
     </div>
     {% endif %}
-  {% endblock %}
+    {% endblock %}
 
-<h3 class="h3" id="head_banner">{% trans "Sign In" %}</h3>
-
-<form class="container-fluid text-center" id="login_form" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-
-  {{ form.as_p }}
-
-  {% if redirect_field_value %}
-
-    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-
-  {% endif %}
-
-  <button  class="btn btn-outline-primary " type="submit">{% trans "Sign In" %}</button>
-  <a  class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password ?" %}</a>
-
-</form>
+    <h3 class="h3" id="head_banner">{% trans "Sign In" %}</h3>
     {% load account socialaccount %}
     {% get_providers as socialaccount_providers %}
-    <ul class="social_providers_list">
-    {% for provider in socialaccount_providers %}
+    <div class="social_providers_list">
+        {% for provider in socialaccount_providers %}
         {% if provider.name == "Strava" %}
         <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
             <img src="{% static 'main/btn_strava_connectwith_orange.png' %}" alt="Connect with Strava"/>
         </a>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
+    <form class="container-fluid text-center" id="login_form" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        {% if redirect_field_value %}
+
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+
+        {% endif %}
+
+        <button class="btn btn-outline-primary " type="submit">{% trans "Sign In" %}</button>
+        <a class="btn btn-outline-dark" href="{% url 'account_reset_password' %}">{% trans "Forgot Password ?" %}</a>
+    </form>
+    <div class="social_providers_list">
         <a href="/accounts/signup" class="btn btn-outline-dark">Manual Registration</a>
-    </ul>
+    </div>
 </div>
 {% endblock %}

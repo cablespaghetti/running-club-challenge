@@ -28,41 +28,29 @@
 }
 
 #login_form button{
-    margin-right: 2rem;
-    margin-left: 2.7rem;
-    margin-bottom: 1rem;
     padding-bottom: 1rem;
-    width:8rem;
+    width: 12rem;
     height: 2.4rem;
     border-radius: 1.3rem;
     border:2px solid;
 }
 
 #login_form a{
-    margin-left: 1.6rem;
-    margin-bottom: 1rem;
-    padding-right: 8.7rem;
-    width:8rem;
+    padding-bottom: 1rem;
+    width:12rem;
     height: 2.4rem;
     border-radius: 1.3rem;
     border:2px solid;
 }
 
 .social_providers_list{
-    display: inline;
-    margin-top: 2rem;
-    padding-left: 35.2rem;
-}
-
-.social_providers_list a{
-    text-decoration: none;
-    margin-right:1rem;
-    margin-left:1rem;
+    margin: auto;
+    width: 100%;
+    text-align: center;
 }
 
 #social_icon{
     display: inline;
-    padding-right: 0.6rem;
 }
 
 /* Signup Page Styles */
