@@ -66,12 +66,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.strava",
 ]
 
-SOCIALACCOUNT_PROVIDERS = {
-    'strava': {
-        'SCOPE': ["read,activity:read_all"],
-    }
-}
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
