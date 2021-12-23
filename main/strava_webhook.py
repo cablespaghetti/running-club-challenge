@@ -22,7 +22,7 @@ def get_subscription():
         client.create_subscription(
             client_id=strava_app.client_id,
             client_secret=strava_app.secret,
-            callback_url=f"https://{challenge.settings.ALLOWED_HOSTS[0]}/strava/callback?verify_token={challenge.settings.STRAVA_VERIFY_TOKEN}",
+            callback_url=f"https://{challenge.settings.ALLOWED_HOSTS[0]}/strava/callback/{challenge.settings.STRAVA_VERIFY_TOKEN}",
             verify_token=challenge.settings.STRAVA_VERIFY_TOKEN
         )
 
