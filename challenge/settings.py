@@ -21,13 +21,14 @@ ENVIRONMENT = os.getenv('DJANGO_ENVIRONMENT', 'local')
 if ENVIRONMENT == 'local':
     DEBUG = True
     SECRET_KEY = 'django-insecure-69#4zj@w1*i*p=abwm_ll)*6-5aozqs(co2fl6)!xfqla*7u4a'
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['localhost']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    STRAVA_VERIFY_TOKEN = 'supersecretkey'
 else:
     DEBUG = os.getenv('DJANGO_DEBUG', False)
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
@@ -44,6 +45,7 @@ else:
         }
     }
     STATIC_ROOT = "/static/"
+    STRAVA_VERIFY_TOKEN = os.getenv('STRAVA_VERIFY_TOKEN')
 
 # TODO: Caching, Email sending
 

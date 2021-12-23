@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, get_object_or_404
 
 from main.models import Activity, Race
 from main.forms import SubmitResultForm
 from main.utils import get_athlete_for_user
+from main.strava_webhook import verify_callback, handle_callback
 from datetime import date
 
 
@@ -88,6 +89,22 @@ def race_list(request):
         'race_list': races
     }
     return render(request, 'main/race_list.html', template_context)
+
+
+def strava_callback(request):
+    if request.method == 'GET':
+        response = verify_callback(request)
+        if response:
+            return JsonResponse(response)
+        else:
+            return HttpResponseBadRequest("Invalid Strava Verification Token")
+    elif request.method == 'POST':
+        if handle_callback():
+            return HttpResponse('Strava Webhook Processed')
+        else:
+            return HttpResponseServerError()
+    else:
+        return HttpResponseBadRequest("Invalid request method")
 
 
 def index(request):
