@@ -44,5 +44,7 @@ def verify_callback(request):
 
 
 def handle_callback(request):
-    logger.info(request.body)
-    return True
+    client = Client()
+    update = client.handle_subscription_update(request.body)
+    logger.info(f"Handled Strava subscription callback for {update.owner_id}")
+    return update.owner_id

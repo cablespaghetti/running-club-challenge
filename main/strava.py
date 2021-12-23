@@ -44,7 +44,7 @@ def update_user_strava_activities(user):
         return
     logger.debug(f"Got strava token for {user}")
     update_user_strava_token(token)
-    a_week_ago = datetime.datetime.now() - datetime.timedelta(days=365)  # Todo reduce
+    a_week_ago = datetime.datetime.now() - datetime.timedelta(days=7)
     client = Client()
     client.access_token = token.token
     client.refresh_token = token.token_secret
@@ -55,7 +55,7 @@ def update_user_strava_activities(user):
         start_date__lte=datetime.date.today(),
     )
     for strava_activity in strava_activities:
-        if strava_activity.type == 'Run' and strava_activity.workout_type == 1:
+        if strava_activity.type == 'Run':
             for race in races:
                 race_distance_km = race_distance_in_km(race)
                 strava_distance_km = unithelper.kilometers(strava_activity.distance).num

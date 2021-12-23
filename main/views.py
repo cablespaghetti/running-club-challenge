@@ -101,10 +101,11 @@ def strava_callback(request):
         else:
             return HttpResponseBadRequest("Invalid Strava Verification Token")
     elif request.method == 'POST':
-        if handle_callback(request):
-            return HttpResponse('Strava Webhook Processed')
-        else:
+        try:
+            owner = handle_callback(request)
+        except AttributeError:
             return HttpResponseServerError()
+        return HttpResponse(f'Strava Webhook Processed for {owner}')
     else:
         return HttpResponseBadRequest("Invalid request method")
 
