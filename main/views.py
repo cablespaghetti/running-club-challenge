@@ -110,5 +110,9 @@ def strava_webhook(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
+def submitting_results(request):
+    return render(request, 'main/submitting_results.html')
+
+
 def index(request):
     return render(request, 'main/index.html')

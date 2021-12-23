@@ -47,9 +47,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'race_list' %}">Races</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'submitting_results' %}">Submitting Results</a>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'submit_result' %}">Submit Result</a>
+                <a class="nav-link" href="{% url 'submit_result' %}">Manually Submit Result</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_logout' %}">Sign out</a>

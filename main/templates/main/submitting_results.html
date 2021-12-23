@@ -1,0 +1,47 @@
+{% extends '../account/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h3>Submitting results</h3>
+    <h4>Strava Users</h4>
+    <p>
+        The easiest way to access this site is with a Strava account which is a member of the
+        <a href="https://www.strava.com/clubs/romsey-road-runners">Romsey Road Runners Strava Club</a>. These accounts
+        will automatically capture race results from Strava, and will be immediately activated.
+    </p>
+    <p>
+        <strong>First</strong> make sure you're a member of the Strava Club and <i>then</i> click "Connect with Strava"
+        on the <a href="{% url 'account_login' %}">Sign In page</a>. This will allow us to automatically capture your
+        times from Strava if the activity has a privacy setting of <i>"Followers Only"</i> or <i>"Everyone"</i>.
+    </p>
+    <p>
+        Make sure your race attempts include <i>"Club Challenge Road"</i> in the title for road races or
+        <i>"Club Challenge Trail"</i> for trail, exceed the race distance but are no more than 100m over. If your Strava
+        activity is too long <a href="https://support.strava.com/hc/en-us/articles/216919437-Crop-Tool-for-Activities">
+        here's how to crop activities</a>.
+    </p>
+    <p>
+        Usually activities will be captured from Strava immediately but this can take up to two hours. If it meets the
+        requirements above but isn't showing up, try slightly editing the title on Strava which will trigger an update.
+    </p>
+    <h4>Non-Strava Users</h4>
+    <p>
+        Please register using the "Manual Registration" button on the <a href="{% url 'account_login' %}">Sign In page</a> and
+        enter all your details. You will need to wait for us to check you are a club member and activate your account.
+    </p>
+    <p>
+        You will then be able to use the "Submit Result" button above to manually upload evidence of your results.
+        Ideally this should be a GPX file which you can export from most watches/services. However we will accept a
+        photo of your watch (or equivalent) showing time and distance.
+    </p>
+    <p>
+        If you are not comfortable signing up for this site, you can email
+        <a href="mailto:results@romseyroadrunners.co.uk">results@romseyroadrunners.co.uk</a> with your time and evidence
+        and we will upload it for you.
+    </p>
+    <h4>Any problems?</h4>
+    <p>
+    Please email <a href="mailto:rrrweb@romseyroadrunners.co.uk">rrrweb@romseyroadrunners.co.uk</a> for help.
+    </p>
+</div>
+{% endblock content %}
