@@ -52,6 +52,8 @@ class Race(models.Model):
     ]
     match_text = models.CharField(max_length=254)
     distance_unit = models.CharField(max_length=1, choices=DISTANCE_UNIT_CHOICES)
+    route_gpx = models.FileField(upload_to='route-gpx', blank=True, null=True)
+    route_image = models.FileField(upload_to='route-image', blank=True, null=True)
     strava_segment_id = models.BigIntegerField(blank=True, null=True)
 
 

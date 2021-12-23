@@ -42,7 +42,7 @@ def race_results(request, race_id):
             age_graded_processed_athlete_list.append(age_graded_activity.athlete)
 
     template_context = {
-        'race_name': race.name,
+        'race': race,
         'results_dict': results_dict,
     }
     return render(request, 'main/race_results.html', template_context)
