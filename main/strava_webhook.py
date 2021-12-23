@@ -16,7 +16,7 @@ def get_subscription():
     subscription_count = 0
     for subscription in subscriptions:
         subscription_count += 1
-        print(subscription)
+        logger.info(f"Subscription present with url {subscription.callback_url} created at {subscription.created_at}")
     if not subscription_count:
         logger.warning("There is currently no Strava webhook subscription set up")
         client.create_subscription(

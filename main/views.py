@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
 from main.models import Activity, Race
 from main.forms import SubmitResultForm
@@ -91,6 +92,7 @@ def race_list(request):
     return render(request, 'main/race_list.html', template_context)
 
 
+@csrf_exempt
 def strava_callback(request):
     if request.method == 'GET':
         response = verify_callback(request)
