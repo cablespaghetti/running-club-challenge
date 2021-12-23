@@ -34,10 +34,11 @@ def update_user_strava_token(token):
         token.expires_at = datetime.datetime.utcfromtimestamp(refresh_response['expires_at'])
         token.save()
         logger.info(f"Refreshed Strava token for {token.account}")
-    logger.info(f"Did not need to refresh Strava token for {token.account}")
+    logger.debug(f"Did not need to refresh Strava token for {token.account}")
 
 
 def update_user_strava_activities(user):
+    logger.info(f"Updating strava activities for {user.first_name} {user.last_name}")
     token = get_user_strava_token(user)
     if not token:
         logger.warning(f"Could not refresh {user}'s strava activities. No token.")
