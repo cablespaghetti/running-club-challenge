@@ -31,7 +31,7 @@ def update_user_strava_token(token):
         )
         token.token = refresh_response['access_token']
         token.secret = refresh_response['refresh_token']
-        token.expires_at = datetime.datetime.utcfromtimestamp(refresh_response['expires_at'])
+        token.expires_at = datetime.datetime.fromtimestamp(refresh_response['expires_at'], tz=datetime.datetime.utc)
         token.save()
         logger.info(f"Refreshed Strava token for {token.account}")
     logger.debug(f"Did not need to refresh Strava token for {token.account}")
