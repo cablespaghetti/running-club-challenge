@@ -1,12 +1,20 @@
 import logging
+import threading
+import json
 
 from django.utils.datastructures import MultiValueDictKeyError
 from stravalib.client import Client
-from allauth.socialaccount.models import SocialApp
+from allauth.socialaccount.models import SocialApp, SocialAccount
+from main.strava import update_user_strava_activities
 
 import challenge.settings
 
 logger = logging.getLogger()
+
+
+def get_user_for_strava_id(strava_id):
+    social_account = SocialAccount.objects.get(uid=strava_id)
+    return social_account.user
 
 
 def get_subscription():
@@ -45,6 +53,10 @@ def verify_callback(request):
 
 def handle_callback(request):
     client = Client()
-    update = client.handle_subscription_update(request.body)
+    body = json.loads(request.body)
+    update = client.handle_subscription_update(body)
     logger.info(f"Handled Strava subscription callback for {update.owner_id}")
+    user = get_user_for_strava_id(strava_id=update.owner_id)
+    t = threading.Thread(target=update_user_strava_activities, args=[user])
+    t.start()
     return update.owner_id

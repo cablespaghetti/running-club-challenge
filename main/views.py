@@ -93,7 +93,7 @@ def race_list(request):
 
 
 @csrf_exempt
-def strava_callback(request):
+def strava_webhook(request):
     if request.method == 'GET':
         response = verify_callback(request)
         if response:
@@ -103,7 +103,7 @@ def strava_callback(request):
     elif request.method == 'POST':
         try:
             owner = handle_callback(request)
-        except AttributeError:
+        except AttributeError as e:
             return HttpResponseServerError()
         return HttpResponse(f'Strava Webhook Processed for {owner}')
     else:

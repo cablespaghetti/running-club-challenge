@@ -1,4 +1,5 @@
 from agegrader.agegrader import AgeGrader
+import decimal
 
 
 def get_activity_age_grade(athlete, elapsed_time, race, start_time):
@@ -26,7 +27,7 @@ def get_athlete_age(athlete, date):
 
 def race_distance_in_km(race):
     if race.distance_unit == "M":
-        race_distance_km = race.distance * 1.609344
+        race_distance_km = race.distance * decimal.Decimal(1.609344)
     else:
         race_distance_km = race.distance
     return race_distance_km
