@@ -1,5 +1,7 @@
 {% extends '../account/base.html' %}
 {% block content %}
+{% load static %}
+
 <div class="container">
     <h2>{{ race.name }}</h2>
     {% if race.route_image %}
@@ -12,6 +14,57 @@
     For the more technical amongst you there is also a <a href="{{ race.route_gpx.url }}">GPX file available</a> which
     can be loaded into watches or phone apps for navigation.
     </p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    <div id="race" class="gpx" data-gpx-source="{{ race.route_gpx.url }}" data-map-target="race-map">
+      <article>
+        <div class="map" id="race-map"></div>
+      </article>
+
+      <footer>
+        <ul class="info">
+          <li>Distance:&nbsp;<span class="distance"></span>&nbsp;km</li>
+        </ul>
+      </footer>
+    </div>
+    <script type="application/javascript">
+      function display_gpx(elt) {
+        if (!elt) return;
+
+        var url = elt.getAttribute('data-gpx-source');
+        var mapid = elt.getAttribute('data-map-target');
+        if (!url || !mapid) return;
+
+        function _t(t) { return elt.getElementsByTagName(t)[0]; }
+        function _c(c) { return elt.getElementsByClassName(c)[0]; }
+
+        var map = L.map(mapid);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'Map data &copy; <a href="http://www.osm.org">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var control = L.control.layers(null, null).addTo(map);
+
+        new L.GPX(url, {
+          async: true,
+          marker_options: {
+            wptIconUrls: {
+                '': ''
+            },
+            startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/pin-icon-start.png',
+            endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/pin-icon-end.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/pin-shadow.png'
+
+          },
+        }).on('loaded', function(e) {
+          var gpx = e.target;
+          map.fitBounds(gpx.getBounds());
+          control.addOverlay(gpx, gpx.get_name());
+          _c('distance').textContent = (gpx.get_distance()/1000).toFixed(2);
+        }).addTo(map);
+      }
+      display_gpx(document.getElementById('race'));
+    </script>
     {% endif %}
     <h3>Results</h3>
     {% if not user.is_authenticated %}
