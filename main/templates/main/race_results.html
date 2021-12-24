@@ -84,6 +84,7 @@
         </tr>
         </thead>
         <tbody>
+        {% if results %}
         {% for result in results %}
         <tr>
             <th scope="row">{{ forloop.counter }}</th>
@@ -109,6 +110,13 @@
             <td>{{ result.age_grade|floatformat:2 }}%</td>
         </tr>
         {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4">
+                No results yet. Please check back later!
+            </td>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
     {% endfor %}
