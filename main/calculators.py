@@ -31,11 +31,3 @@ def race_distance_in_km(race):
     else:
         race_distance_km = race.distance
     return race_distance_km
-
-
-def age_graded_percentage(age, gender, distance, time):
-    if not age:
-        return 0
-    age_grader = AgeGrader()
-    age_graded_performance_factor = age_grader.age_graded_performance_factor(age, gender, distance, time)
-    return age_graded_performance_factor * 100
