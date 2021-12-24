@@ -14,10 +14,14 @@
     For the more technical amongst you there is also a <a href="{{ race.route_gpx.url }}">GPX file available</a> which
     can be loaded into watches or phone apps for navigation.
     </p>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"
+            integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"
+            integrity="sha512-BsUtn1Ar2O78Q8YkY1f2pkioHOs8H43KUlP3PHus8lyAMODNq1CmemnU435dFk/SU37OGG+ooxvmEhAcNTEBFQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <div id="race" class="gpx" data-gpx-source="{{ race.route_gpx.url }}" data-map-target="race-map">
-      <article>
+    <article>
         <div class="map" id="race-map"></div>
       </article>
 
