@@ -10,7 +10,6 @@ from main.strava_webhook import verify_callback, handle_callback
 from datetime import date
 
 
-@login_required
 def race_results(request, race_id):
     race = get_object_or_404(Race, id=race_id)
 
@@ -48,7 +47,7 @@ def race_results(request, race_id):
     return render(request, 'main/race_results.html', template_context)
 
 
-@login_required()
+@login_required
 def submit_result(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':

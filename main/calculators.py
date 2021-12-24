@@ -30,4 +30,4 @@ def race_distance_in_km(race):
         race_distance_km = race.distance * decimal.Decimal(1.609344)
     else:
         race_distance_km = race.distance
-    return race_distance_km
+    return float(race_distance_km)
