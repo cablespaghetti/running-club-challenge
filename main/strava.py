@@ -65,7 +65,9 @@ def update_user_strava_activities(user):
                         and race_distance_km <= strava_distance_km \
                         < (race_distance_km + 0.1):
                     logger.info(
-                        f"Found new match for race {race.name}: {strava_activity.name} for {user.first_name} {user.last_name} of distance {strava_distance_km}km at {strava_activity.start_date} and time {strava_activity.elapsed_time}")
+                        f"Found match for race {race.name}: {strava_activity.name} for {user.first_name} "
+                        f"{user.last_name} of distance {round(strava_distance_km, 2)}km at {strava_activity.start_date} "
+                        f"and time {strava_activity.elapsed_time}")
                     create_update_activity(
                         race=race,
                         athlete=get_athlete_for_user(user),
