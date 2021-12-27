@@ -85,9 +85,6 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
                     u.is_active = True
                     break
 
-        if not u.is_active:
-            send_user_activation_email(u, social=True)
-
         sociallogin.save(request)
 
         # Create an Athlete
@@ -125,16 +122,12 @@ class SocialAccountSignupForm(SocialSignupForm):
     dob = forms.DateField(label="Date of Birth")
 
 
-def send_user_activation_email(user, social=False):
+def send_user_activation_email(user):
     site = Site.objects.get_current()
 
     message_text = f'A new user has signed up to {site.name} with email address {user.email} and needs activation. ' \
                    f'Please go to https://{site.domain}/admin/auth/user/ and set them to "Active" ' \
-                   f'after verifying that they are a member of the club. \n\n'
-
-    if social:
-        message_text += 'This user registered using Strava but is not a member of the Strava Club.\n\n'
-
-    message_text += 'When you have done this you will need to email them to inform them that their account is now ' \
-                    'active, as this is not automated.'
+                   'after verifying that they are a member of the club. \n\n' \
+                   'When you have done this you will need to email them to inform them that their account is now ' \
+                   'active, as this is not automated.'
     mail_admins(f'User {user.first_name} {user.last_name} needs manual activation', message_text)
