@@ -128,8 +128,8 @@ class SocialAccountSignupForm(SocialSignupForm):
 def send_user_activation_email(user, social=False):
     site = Site.objects.get_current()
 
-    message_text = f'A new user has signed up to {site.name} and needs activation. ' \
-                   f'Please go to https://{site.domain}/admin/auth/user/{user.pk}/change/ and set them to "Active" ' \
+    message_text = f'A new user has signed up to {site.name} with email address {user.email} and needs activation. ' \
+                   f'Please go to https://{site.domain}/admin/auth/user/ and set them to "Active" ' \
                    f'after verifying that they are a member of the club. \n\n'
 
     if social:
