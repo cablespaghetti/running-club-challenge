@@ -38,13 +38,17 @@ def update_user_strava_token(token):
 
 
 def update_user_strava_activities(user):
-    logger.info(f"Updating strava activities for {user.first_name} {user.last_name}")
+    if not user.is_active:
+        logger.info(f"Skipping Strava update for {user.first_name} {user.last_name} until their account is activated")
+        return
     token = get_user_strava_token(user)
     if not token:
-        logger.warning(f"Could not refresh {user}'s strava activities. No token.")
+        logger.info(f"No Strava token for user {user.first_name} {user.last_name}")
         return
-    logger.debug(f"Got strava token for {user}")
+    logger.debug(f"Got strava token for {user.first_name} {user.last_name}")
     update_user_strava_token(token)
+
+    logger.info(f"Updating Strava activities for {user.first_name} {user.last_name}")
     a_week_ago = datetime.datetime.now() - datetime.timedelta(days=7)
     client = Client()
     client.access_token = token.token
