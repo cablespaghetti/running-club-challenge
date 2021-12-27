@@ -1,12 +1,14 @@
 from allauth.account.adapter import DefaultAccountAdapter
-from allauth.socialaccount.adapter import get_account_adapter, DefaultSocialAccountAdapter
 from allauth.account.forms import SignupForm
+from allauth.account.models import EmailAddress
+from allauth.socialaccount.adapter import get_account_adapter, DefaultSocialAccountAdapter
 from allauth.socialaccount.forms import SignupForm as SocialSignupForm
-from stravalib.client import Client
-from main.utils import create_update_athlete
 from django import forms
+from django.contrib.sites.models import Site
+from django.core.mail import mail_admins
+from stravalib.client import Client
 
-import logging
+from main.utils import create_update_athlete
 
 
 class DeactivateAccountAdapter(DefaultAccountAdapter):
@@ -36,6 +38,7 @@ class DeactivateAccountAdapter(DefaultAccountAdapter):
 
         # Deactivate the account
         user.is_active = False
+        send_user_activation_email(user)
 
         if commit:
             # Ability not to commit makes it easier to derive from
@@ -82,6 +85,9 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
                     u.is_active = True
                     break
 
+        if not u.is_active:
+            send_user_activation_email(u, social=True)
+
         sociallogin.save(request)
 
         # Create an Athlete
@@ -107,6 +113,28 @@ class AccountSignupForm(SignupForm):
     gender = forms.ChoiceField(choices=GENDER_CHOICES, label="Gender")
     dob = forms.DateField(label="Date of Birth")
 
+    # Send verification email even though we initially deactivate accounts
+    def save(self, request):
+        user = super(AccountSignupForm, self).save(request)
+        email_address = EmailAddress.objects.get_primary(user)
+        email_address.send_confirmation()
+        return user
+
 
 class SocialAccountSignupForm(SocialSignupForm):
     dob = forms.DateField(label="Date of Birth")
+
+
+def send_user_activation_email(user, social=False):
+    site = Site.objects.get_current()
+
+    message_text = f'A new user has signed up to {site.name} and needs activation. ' \
+                   f'Please go to https://{site.domain}/admin/auth/user/{user.pk}/change/ and set them to "Active" ' \
+                   f'after verifying that they are a member of the club. \n\n'
+
+    if social:
+        message_text += 'This user registered using Strava but is not a member of the Strava Club.\n\n'
+
+    message_text += 'When you have done this you will need to email them to inform them that their account is now ' \
+                    'active, as this is not automated.'
+    mail_admins(f'User {user.first_name} {user.last_name} needs manual activation', message_text)

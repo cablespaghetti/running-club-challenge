@@ -1,13 +1,14 @@
+import json
 import logging
 import threading
-import json
 
+from allauth.socialaccount.models import SocialApp, SocialAccount
+from django.contrib.sites.models import Site
 from django.utils.datastructures import MultiValueDictKeyError
 from stravalib.client import Client
-from allauth.socialaccount.models import SocialApp, SocialAccount
-from main.strava import update_user_strava_activities
 
 import challenge.settings
+from main.strava import update_user_strava_activities
 
 logger = logging.getLogger()
 
@@ -27,10 +28,11 @@ def get_subscription():
         logger.info(f"Subscription present with url {subscription.callback_url} created at {subscription.created_at}")
     if not subscription_count:
         logger.warning("There is currently no Strava webhook subscription set up")
+        site_domain = Site.objects.get_current().domain
         client.create_subscription(
             client_id=strava_app.client_id,
             client_secret=strava_app.secret,
-            callback_url=f"https://{challenge.settings.ALLOWED_HOSTS[0]}/strava/webhook/{challenge.settings.STRAVA_VERIFY_TOKEN}",
+            callback_url=f"https://{site_domain}/strava/webhook/{challenge.settings.STRAVA_VERIFY_TOKEN}",
             verify_token=challenge.settings.STRAVA_VERIFY_TOKEN
         )
 

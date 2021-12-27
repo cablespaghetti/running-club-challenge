@@ -29,6 +29,8 @@ if ENVIRONMENT == 'local':
         }
     }
     STRAVA_VERIFY_TOKEN = 'supersecretkey'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    ADMINS = [('Site Admin', 'webmaster@localhost')]
 else:
     DEBUG = os.getenv('DJANGO_DEBUG', False)
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
@@ -46,8 +48,16 @@ else:
     }
     STATIC_ROOT = "/static/"
     STRAVA_VERIFY_TOKEN = os.getenv('STRAVA_VERIFY_TOKEN')
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+    ADMINS = [('Site Admin', EMAIL_HOST_USER)]
 
-# TODO: Caching, Email sending
+# Email subject prefix used for emails to admins or managers
+EMAIL_SUBJECT_PREFIX = '[RRR Club Challenge] '
 
 # Application definition
 
@@ -142,11 +152,15 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-ACCOUNT_EMAIL_REQUIRED = "True"
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SESSION_REMEMBER = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 LOGIN_REDIRECT_URL = "index"
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 SOCIALACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateSocialAccountAdapter"
 ACCOUNT_ADAPTER = "challenge.auth_adapter.DeactivateAccountAdapter"
 ACCOUNT_FORMS = {
