@@ -36,14 +36,15 @@ class DeactivateAccountAdapter(DefaultAccountAdapter):
             user.set_unusable_password()
         self.populate_username(request, user)
 
-        # Deactivate the account
-        user.is_active = False
-        send_user_activation_email(user)
-
         if commit:
+            # Deactivate the account
+            user.is_active = False
+            send_user_activation_email(user)
+
             # Ability not to commit makes it easier to derive from
             # this adapter by adding
             user.save()
+
             # Create an Athlete
             gender = None
             dob = None
@@ -68,7 +69,7 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
         u = sociallogin.user
         u.set_unusable_password()
         if form:
-            get_account_adapter().save_user(request, u, form)
+            get_account_adapter().save_user(request, u, form, commit=False)
         else:
             get_account_adapter().populate_username(request, u)
 
@@ -85,17 +86,28 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
                     u.is_active = True
                     break
 
+        if not u.is_active:
+            send_user_activation_email(u)
+
         sociallogin.save(request)
 
         # Create an Athlete
         if sociallogin.account.extra_data:
             gender = None
             photo = None
+            dob = None
+            if form and 'dob' in form.cleaned_data:
+                dob = form.cleaned_data['dob']
             if 'sex' in sociallogin.account.extra_data and sociallogin.account.extra_data['sex'] in ['F', 'M']:
                 gender = sociallogin.account.extra_data['sex']
             if 'profile' in sociallogin.account.extra_data:
                 photo = sociallogin.account.extra_data['profile']
-        create_update_athlete(user=u, gender=gender, photo_url=photo)
+        create_update_athlete(
+            user=u,
+            gender=gender,
+            photo_url=photo,
+            dob=dob,
+        )
 
         return u
 
