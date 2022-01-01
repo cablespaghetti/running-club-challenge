@@ -46,15 +46,15 @@ class DeactivateAccountAdapter(DefaultAccountAdapter):
             user.save()
 
             # Create an Athlete
-            gender = None
+            sex = None
             dob = None
-            if 'gender' in data:
-                gender = data['gender']
+            if 'sex' in data:
+                sex = data['sex']
             if 'dob' in data:
                 dob = data['dob']
             create_update_athlete(
                 user=user,
-                gender=gender,
+                sex=sex,
                 dob=dob,
             ),
 
@@ -93,18 +93,18 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
 
         # Create an Athlete
         if sociallogin.account.extra_data:
-            gender = None
+            sex = None
             photo = None
             dob = None
             if form and 'dob' in form.cleaned_data:
                 dob = form.cleaned_data['dob']
             if 'sex' in sociallogin.account.extra_data and sociallogin.account.extra_data['sex'] in ['F', 'M']:
-                gender = sociallogin.account.extra_data['sex']
+                sex = sociallogin.account.extra_data['sex']
             if 'profile' in sociallogin.account.extra_data:
                 photo = sociallogin.account.extra_data['profile']
         create_update_athlete(
             user=u,
-            gender=gender,
+            sex=sex,
             photo_url=photo,
             dob=dob,
         )
@@ -115,11 +115,11 @@ class DeactivateSocialAccountAdapter(DefaultSocialAccountAdapter):
 class AccountSignupForm(SignupForm):
     first_name = forms.CharField(max_length=150, label='First Name')
     last_name = forms.CharField(max_length=150, label='Last Name')
-    GENDER_CHOICES = [
+    SEX_CHOICES = [
         ('F', 'Female'),
         ('M', 'Male')
     ]
-    gender = forms.ChoiceField(choices=GENDER_CHOICES, label="Gender")
+    sex = forms.ChoiceField(choices=SEX_CHOICES, label="Sex")
     dob = forms.DateField(label="Date of Birth")
 
     # Send verification email even though we initially deactivate accounts

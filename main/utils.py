@@ -10,7 +10,7 @@ from main.models import Athlete, Activity
 logger = logging.getLogger()
 
 
-def create_update_athlete(user, gender=None, dob=None, photo_url=None):
+def create_update_athlete(user, sex=None, dob=None, photo_url=None):
     try:
         athlete = Athlete.objects.get(user=user)
     except ObjectDoesNotExist:
@@ -19,8 +19,8 @@ def create_update_athlete(user, gender=None, dob=None, photo_url=None):
         logger.warning("User {user.pk} has multiple associated Athletes")
 
     athlete.user = user
-    if gender:
-        athlete.gender = gender
+    if sex:
+        athlete.sex = sex
 
     if dob:
         athlete.DOB = dob

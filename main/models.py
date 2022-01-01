@@ -16,12 +16,12 @@ class Athlete(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Based on Strava API definition not mine
     # https://developers.strava.com/docs/reference/#api-models-SummaryAthlete
-    GENDER_CHOICES = [
+    SEX_CHOICES = [
         ("F", "Female"),
         ("M", "Male"),
     ]
-    gender = models.CharField(
-        max_length=1, choices=GENDER_CHOICES, blank=True, null=True
+    sex = models.CharField(
+        max_length=1, choices=SEX_CHOICES, blank=True, null=True
     )
     dob = models.DateField(
         name="DOB", verbose_name="Date of Birth", blank=True, null=True

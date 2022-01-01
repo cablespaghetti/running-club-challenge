@@ -22,7 +22,7 @@ def race_results(request, race_id):
     processed_athlete_list = []
     for activity in activities:
         if activity.athlete not in processed_athlete_list:
-            if activity.athlete.gender == 'F':
+            if activity.athlete.sex == 'F':
                 dict_list = 'Female Time'
             else:
                 dict_list = 'Male Time'
@@ -33,7 +33,7 @@ def race_results(request, race_id):
     age_graded_processed_athlete_list = []
     for age_graded_activity in age_graded_activities:
         if age_graded_activity.athlete not in age_graded_processed_athlete_list:
-            if activity.athlete.gender == 'F':
+            if activity.athlete.sex == 'F':
                 dict_list = 'Female Age Graded'
             else:
                 dict_list = 'Male Age Graded'

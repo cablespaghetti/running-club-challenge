@@ -9,7 +9,7 @@ def get_activity_age_grade(athlete, elapsed_time, race, start_time):
     age_grader = AgeGrader()
     age_graded_performance_factor = age_grader.age_graded_performance_factor(
         age,
-        athlete.gender,
+        athlete.sex,
         race_distance_in_km(race),
         elapsed_time.total_seconds(),
     )
