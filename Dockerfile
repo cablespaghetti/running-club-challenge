@@ -4,7 +4,7 @@ FROM base as builder
 RUN mkdir /install
 WORKDIR /install
 COPY requirements.txt /requirements.txt
-RUN pip install --prefix=/install -r /requirements.txt gunicorn gevent --no-warn-script-location
+RUN pip install --prefix=/install -r /requirements.txt gunicorn --no-warn-script-location
 
 # Copy over pip dependencies from base
 FROM base
@@ -23,4 +23,4 @@ COPY ./ .
 
 # Run gunicorn as a production-suitable app server
 EXPOSE 7777
-CMD gunicorn --worker-class gevent --workers 8 --bind 0.0.0.0:7777 challenge.wsgi --max-requests 10000 --timeout 5 --keep-alive 5 --log-level info --access-logfile -
+CMD gunicorn --workers 4 --bind 0.0.0.0:7777 challenge.wsgi --keep-alive 5 --log-level info --access-logfile -
