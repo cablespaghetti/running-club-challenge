@@ -66,8 +66,8 @@ class Activity(models.Model):
 
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
-    start_time = models.DateTimeField()
-    elapsed_time = models.DurationField()
+    start_time = models.DateTimeField(verbose_name="Start Time (DD/MM/YYYY MM:SS)", )
+    elapsed_time = models.DurationField(verbose_name="Elapsed Time (MM:SS) or (HH:MM:SS)", )
     age_grade = models.FloatField(editable=False)
     evidence_file = models.FileField(upload_to='evidence', blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
