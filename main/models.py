@@ -1,10 +1,12 @@
-from django.db import models
-from django.contrib.auth.models import User
+import logging
+
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+
 from main.calculators import get_activity_age_grade
-import logging
 
 logger = logging.getLogger()
 
@@ -66,8 +68,8 @@ class Activity(models.Model):
 
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(verbose_name="Start Time (DD/MM/YYYY MM:SS)", )
-    elapsed_time = models.DurationField(verbose_name="Elapsed Time (MM:SS) or (HH:MM:SS)", )
+    start_time = models.DateTimeField(verbose_name="Start Time (DD/MM/YYYY HH:MM)")
+    elapsed_time = models.DurationField(verbose_name="Elapsed Time (MM:SS) or (HH:MM:SS)")
     age_grade = models.FloatField(editable=False)
     evidence_file = models.FileField(upload_to='evidence', blank=True, null=True)
     strava_activity_id = models.BigIntegerField(blank=True, null=True)
