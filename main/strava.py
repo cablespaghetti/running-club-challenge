@@ -65,9 +65,10 @@ def update_user_strava_activities(user):
         if strava_activity.type == 'Run':
             for race in races:
                 race_distance_km = race_distance_in_km(race)
+                strava_name_sanitised = " ".join(strava_activity.name.lower().split())
                 strava_distance_km = unithelper.kilometers(strava_activity.distance).num
                 if race.start_date <= strava_activity.start_date.date() <= race.end_date \
-                        and race.match_text.lower() in strava_activity.name.lower() \
+                        and race.match_text.lower() in strava_name_sanitised \
                         and (race_distance_km - 0.05) <= strava_distance_km \
                         < (race_distance_km + 0.1):
                     logger.info(

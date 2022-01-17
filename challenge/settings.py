@@ -194,7 +194,7 @@ LOGGING = {
         'level': LOGLEVEL,
     },
     'loggers': {
-        'stravalib.protocol.ApiV3': {
+        'stravalib': {
             'handlers': ['console'],
             'propagate': True,
             'level': 'WARNING'
