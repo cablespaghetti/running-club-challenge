@@ -173,6 +173,7 @@ SOCIALACCOUNT_FORMS = {
 
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
+LOGLEVEL = os.getenv('LOGLEVEL', 'INFO')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -190,7 +191,7 @@ LOGGING = {
     },
     'root': {
         'handlers': ['console'],
-        'level': 'INFO',
+        'level': LOGLEVEL,
     },
     'loggers': {
         'stravalib.protocol.ApiV3': {
