@@ -62,7 +62,7 @@ def update_user_strava_activities(user):
     for strava_activity in strava_activities:
         logger.debug(f"Processing strava activity ({strava_activity.id}) {strava_activity.name} for {user.first_name} {user.last_name}")
         logger.debug(f"Activity distance {strava_activity.distance}, date {strava_activity.start_date} and time {strava_activity.elapsed_time}")
-        if strava_activity.type == 'Run':
+        if strava_activity.type == 'Run' or strava_activity.type == 'Walk':
             for race in races:
                 race_distance_km = race_distance_in_km(race)
                 strava_name_sanitised = " ".join(strava_activity.name.lower().split())
