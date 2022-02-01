@@ -60,7 +60,7 @@ def handle_callback(request):
     logger.info(f"Handled Strava subscription callback for {update.owner_id}")
     try:
         user = get_user_for_strava_id(strava_id=update.owner_id)
+        t = threading.Thread(target=update_user_strava_activities, args=[user])
+        t.start()
     except SocialAccount.DoesNotExist:
         logger.warning(f"No record of Strava user {update.owner_id}")
-    t = threading.Thread(target=update_user_strava_activities, args=[user])
-    t.start()
