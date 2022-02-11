@@ -69,8 +69,7 @@ def update_user_strava_activities(user):
                 strava_distance_km = unithelper.kilometers(strava_activity.distance).num
                 if race.start_date <= strava_activity.start_date.date() <= race.end_date \
                         and race.match_text.lower() in strava_name_sanitised \
-                        and (race_distance_km - 0.05) <= strava_distance_km \
-                        < (race_distance_km + 0.1):
+                        and race_distance_km * 0.98 < strava_distance_km < race_distance_km * 1.05:
                     logger.info(
                         f"Found match for race {race.name}: {strava_activity.name} for {user.first_name} "
                         f"{user.last_name} of distance {round(strava_distance_km, 2)}km at {strava_activity.start_date} "
