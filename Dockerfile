@@ -27,4 +27,4 @@ COPY ./ .
 
 # Run gunicorn as a production-suitable app server
 EXPOSE 7777
-CMD ./.venv/bin/gunicorn --workers 4 --bind 0.0.0.0:7777 challenge.wsgi --keep-alive 5 --log-level info --access-logfile -
+CMD ./.venv/bin/python -m gunicorn --workers 4 --bind 0.0.0.0:7777 challenge.wsgi --keep-alive 5 --log-level info --access-logfile -
